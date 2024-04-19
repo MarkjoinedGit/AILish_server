@@ -12,3 +12,13 @@ class Vocabulary(db.Model):
     createdAt = db.Column(db.DateTime, default=datetime.utcnow)
     def __repr__(self):
         return f"Vocabulary('{self.id}','{self.word}', '{self.pronunciation}', '{self.category}', '{self.audioSrc}', '{self.example}', '{self.createdAt}')"
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'word': self.word,
+            'pronunciation': self.pronunciation,
+            'category': self.category,
+            'audioSrc': self.audioSrc,
+            'example':self.example,
+            'createdAt':self.createdAt
+        }
