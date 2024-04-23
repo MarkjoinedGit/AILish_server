@@ -1,7 +1,8 @@
 from flask import request,jsonify
 from utils.config import app
 from services import vocabulary_service
-
+import requests
+from utils import convert
 vocabularyService = vocabulary_service.VocabularyService()
 
 @app.route('/vocabulary/save', methods=['POST'])
@@ -10,12 +11,13 @@ def save_vocabulary():
     if data:
         user_id = data.get('userId')
         word = data.get('word')
+        definitions = data.get('definitions')
         pronunciation = data.get('pronunciation')
         category = data.get('category')
         audio_src = data.get('audioSrc')
         example = data.get('example')
         if user_id and word and category:
-            vocabulary = vocabularyService.create_vocabulary(user_id, word, pronunciation, category, audio_src, example)
+            vocabulary = vocabularyService.create_vocabulary(user_id, word,definitions, pronunciation, category, audio_src, example)
             if vocabulary:
                 return jsonify({'success': True, 'message': 'Vocabulary saved successfully.'}), 200
             else:
@@ -49,3 +51,14 @@ def get_all_vocabulary():
             return jsonify({'success': False, 'message': 'No vocabularies found for this user.'}), 404
     else:
         return jsonify({'success': False, 'message': 'Missing user id.'}), 400
+    
+@app.route('/vocabulary/get_definition', methods=['GET'])
+def get_definition():
+    word = request.args.get('word')
+    api_url = f'https://api.dictionaryapi.dev/api/v2/entries/en/{word}'
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        data = response.json()
+        return jsonify(convert.convert_result_api_aictionary_to_vocabylary(data[0]))
+    else:
+        return jsonify({'error': 'Unable to fetch data from API.'}), response.status_code   

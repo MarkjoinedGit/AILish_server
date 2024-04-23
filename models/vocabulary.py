@@ -5,6 +5,7 @@ class Vocabulary(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     word = db.Column(db.String(255), nullable=False)
+    definitions = db.Column(db.String(255), nullable=False)
     pronunciation = db.Column(db.String(255))
     category = db.Column(Enum('NOUN', 'VERB', 'ADJECTIVE', 'ADVERB', 'PRONOUN', 'PREPOSITION', 'CONJUNCTION', 'INTERJECTION'), nullable=False)
     audioSrc = db.Column(db.String(255))
@@ -16,6 +17,7 @@ class Vocabulary(db.Model):
         return {
             'id': self.id,
             'word': self.word,
+            'definitions':self.definitions,
             'pronunciation': self.pronunciation,
             'category': self.category,
             'audioSrc': self.audioSrc,
