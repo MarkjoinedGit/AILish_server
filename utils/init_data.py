@@ -14,7 +14,7 @@ def init(db,User,Vocabulary,Album,AlbumVocabulary,SearchHistory):
     new_user = User(userName='aKhoa123',advertisingID='FFAHH-BV251-0000-1957', phoneNumber='0315522568', password=hash_password("123456"), avatarSrc='')
     db.session.add(new_user)
 
-    new_vocabulary = Vocabulary(word='apple', userId=1, pronunciation='ˈæpəl', category='NOUN', audioSrc='apple.mp3', example='I ate an apple.', createdAt=datetime.utcnow())
+    new_vocabulary = Vocabulary(word='apple',definitions='trái táo', userId=1, pronunciation='ˈæpəl', category='NOUN', audioSrc='apple.mp3', example='I ate an apple.', createdAt=datetime.utcnow())
     db.session.add(new_vocabulary)
 
     new_album = Album(name='Food', userId=1)
