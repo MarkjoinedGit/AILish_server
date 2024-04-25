@@ -11,7 +11,7 @@ def check_device():
         user, isExist = userService.find_user_by_advertising_id(data['advertisingID'])
         response = {'success': isExist}
         if isExist:
-            response['user'] = user.to_dict()
+            response['data'] = user.to_dict()
         return jsonify(response)
     
 @app.route('/login', methods=['POST'])
@@ -22,10 +22,10 @@ def login():
         response = {'success': isSuccessful}
         if isSuccessful:
             user = user.to_dict()
-            response['user'] = user
             if user['advertisingID'] != data['advertisingID']:
                 if userService.update_advertising_id(user['id'],data['advertisingID']):
                     user['advertisingID'] = data['advertisingID']
+            response['data'] = user
         return jsonify(response)
 
 @app.route('/sign-up', methods=['POST'])
@@ -34,7 +34,7 @@ def sign_up():
     if 'advertisingID' in data and 'phoneNumber' in data and 'password' in data  and 'userName':
         user = userService.create_user(userName=data['userName'],phoneNumber= data['phoneNumber'], password=data['password'], advertisingID= data['advertisingID'])
         response = {'success': True,
-                    'user': user.to_dict()}
+                    'data': user.to_dict()}
         return jsonify(response)
 
 @app.route('/update/password', methods=['POST'])
