@@ -1,7 +1,7 @@
 
 def convert_result_api_aictionary_to_vocabylary(data):
     word = data["word"]
-    phonetic = data["phonetic"]
+    phonetics = data["phonetics"]
     audio_url = [phonetic["audio"] for phonetic in data["phonetics"] if phonetic["audio"]]
     definitions = [meaning["definition"] for meaning in data["meanings"][0]["definitions"] if "definition" in meaning and meaning["definition"]]
     examples = [meaning["example"] for meaning in data["meanings"][0]["definitions"] if "example" in meaning and meaning["example"]]
@@ -9,7 +9,7 @@ def convert_result_api_aictionary_to_vocabylary(data):
     return {
             'word': word,
             'definitions':definitions,
-            'pronunciation': phonetic,
+            'pronunciation': phonetics,
             'category': part_of_speech,
             'audioSrc': audio_url,
             'example':examples
