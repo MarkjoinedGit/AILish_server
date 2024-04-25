@@ -65,8 +65,11 @@ class UserService:
     
     @staticmethod
     def create_user(userName, phoneNumber, password, avatarSrc=None, advertisingID=None):
+        existing_user = User.query.filter_by(phoneNumber=phoneNumber).first()
+        if existing_user:
+            return None,False
         user = User(userName=userName, phoneNumber=phoneNumber, password=password, avatarSrc=avatarSrc, advertisingID=advertisingID)
         db.session.add(user)
         db.session.commit()
-        return user
+        return user,True
 
