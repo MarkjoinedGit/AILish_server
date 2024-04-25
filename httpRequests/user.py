@@ -55,6 +55,8 @@ def update_password():
     if 'id' in data and 'prevPassword' in data and 'newPassword' in data:
         isSuccessful  = userService.update_password(user_id=data['id'],prev_password=data['prevPassword'],new_password=data['newPassword'])
         response = {'success': isSuccessful}
+        if isSuccessful == False:
+            response['error']='Update Error'
         return jsonify(response)
     else:
         response = {'success': False, 'error': 'Missing required fields'}
@@ -66,6 +68,8 @@ def update_user_name():
     if 'id' in data and 'password' in data and 'newUserName' in data:
         isSuccessful  = userService.update_user_name(user_id=data['id'],password=data['password'],new_user_name=data['newUserName'])
         response = {'success': isSuccessful}
+        if isSuccessful == False:
+            response['error']='Update Error'
         return jsonify(response)
     else:
         response = {'success': False, 'error': 'Missing required fields'}
@@ -77,6 +81,8 @@ def update_phone_number():
     if 'id' in data and 'password' in data and 'newPhoneNumber' in data:
         isSuccessful  = userService.update_phone_number(user_id=data['id'],password=data['password'],new_phone_number=data['newPhoneNumber'])
         response = {'success': isSuccessful}
+        if isSuccessful == False:
+            response['error']='Update Error'
         return jsonify(response)
     else:
         response = {'success': False, 'error': 'Missing required fields'}
