@@ -17,10 +17,10 @@ class Vocabulary(db.Model):
         return {
             'id': self.id,
             'word': self.word,
-            'definitions':self.definitions,
-            'pronunciation': self.pronunciation,
+            'definitions':[self.definitions],
+            'pronunciation':[self.pronunciation],
             'category': self.category,
             'audioSrc': self.audioSrc,
-            'example':self.example,
+            'example':[self.example],
             'createdAt':self.createdAt
         }
