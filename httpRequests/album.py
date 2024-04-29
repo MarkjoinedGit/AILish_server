@@ -37,10 +37,9 @@ def delete_album():
 def get_all_album():
     user_id = request.args.get('userId')
     if user_id:
-        albums = albumService.load_all_with_user_id(user_id)
+        albums = albumService.load_all_album_with_user_id(user_id)
         if albums:
-            album_list = [album.to_dict() for album in albums]
-            return jsonify({'success': True, 'data': album_list}), 200
+            return jsonify({'success': True, 'data': albums}), 200
         else:
             return jsonify({'success': False, 'message': 'No albums found for this user.'}), 404
     else:
@@ -52,7 +51,7 @@ def add_vocabulary_in_album():
     vocabulary_id = request.args.get('vocabularyId')
 
     if album_id and vocabulary_id:
-        success = albumService.add_vocabulary_to_album(album_id, vocabulary_id)
+        success = albumService.add_vocabulary_in_album(album_id, vocabulary_id)
         if success:
             return jsonify({'success': True, 'message': 'Vocabulary added to album successfully.'}), 200
         else:
@@ -67,7 +66,7 @@ def add_list_vocabulary_in_album():
         album_id = data.get('albumId')
         vocabulary_ids = data.get('vocabularyIds')
         if album_id and vocabulary_ids:
-            success = albumService.add_list_vocabulary_to_album(album_id, vocabulary_ids)
+            success = albumService.add_list_vocabulary_in_album(album_id, vocabulary_ids)
             if success:
                 return jsonify({'success': True, 'message': 'Vocabularies added to album successfully.'}), 200
             else:

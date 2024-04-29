@@ -27,27 +27,27 @@ def login():
                     user['advertisingID'] = data['advertisingID']
             response['data'] = user
         else: 
-            response['error'] = "Invalid username or password"
+            response['message'] = "Invalid username or password"
         return jsonify(response)
     else:
-        response = {'success': False, 'error': 'Missing required fields'}
+        response = {'success': False, 'message': 'Missing required fields'}
         return jsonify(response), 400
 
 @app.route('/sign-up', methods=['POST'])
 def sign_up():
     data = request.get_json()
+    response = {}
     if 'advertisingID' in data and 'phoneNumber' in data and 'password' in data  and 'userName':
         user, isSuccessful = userService.create_user(userName=data['userName'],phoneNumber= data['phoneNumber'], password=data['password'], advertisingID= data['advertisingID'])
-        response = {'success': isSuccessful}
+        response['success'] = isSuccessful
         if isSuccessful:
             user = user.to_dict()
             response['data'] = user
         else: 
-            response['error'] = "Phone Number is existing"
-        return jsonify(response)     
+            response['message'] = "Phone Number is existing"    
     else:
-        response = {'success': False, 'error': 'Missing required fields'}
-        return jsonify(response), 400
+        response = {'success': False, 'message': 'Missing required fields'}
+    return jsonify(response)
 
 @app.route('/update/password', methods=['POST'])
 def update_password():
@@ -56,11 +56,11 @@ def update_password():
         isSuccessful  = userService.update_password(user_id=data['id'],prev_password=data['prevPassword'],new_password=data['newPassword'])
         response = {'success': isSuccessful}
         if isSuccessful == False:
-            response['error']='Update Error'
+            response['message']='Update Error'
         return jsonify(response)
     else:
-        response = {'success': False, 'error': 'Missing required fields'}
-        return jsonify(response), 400
+        response = {'success': False, 'message': 'Missing required fields'}
+        return jsonify(response)
 
 @app.route('/update/user-name', methods=['POST'])
 def update_user_name():
@@ -69,10 +69,10 @@ def update_user_name():
         isSuccessful  = userService.update_user_name(user_id=data['id'],password=data['password'],new_user_name=data['newUserName'])
         response = {'success': isSuccessful}
         if isSuccessful == False:
-            response['error']='Update Error'
+            response['message']='Update Error'
         return jsonify(response)
     else:
-        response = {'success': False, 'error': 'Missing required fields'}
+        response = {'success': False, 'message': 'Missing required fields'}
         return jsonify(response), 400
 
 @app.route('/update/phone-number', methods=['POST'])
@@ -82,10 +82,10 @@ def update_phone_number():
         isSuccessful  = userService.update_phone_number(user_id=data['id'],password=data['password'],new_phone_number=data['newPhoneNumber'])
         response = {'success': isSuccessful}
         if isSuccessful == False:
-            response['error']='Update Error'
+            response['message']='Update Error'
         return jsonify(response)
     else:
-        response = {'success': False, 'error': 'Missing required fields'}
+        response = {'success': False, 'message': 'Missing required fields'}
         return jsonify(response), 400
 
 @app.route('/update/avatar-src', methods=['POST'])
@@ -96,5 +96,5 @@ def update_avatar_src():
         response = {'success': isSuccessful}
         return jsonify(response)
     else:
-        response = {'success': False, 'error': 'Missing required fields'}
+        response = {'success': False, 'message': 'Missing required fields'}
         return jsonify(response), 400

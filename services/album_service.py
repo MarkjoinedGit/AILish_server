@@ -1,5 +1,6 @@
 from models.album import Album
 from models.album_vocabulary import AlbumVocabulary
+from models.vocabulary import Vocabulary
 from utils.config import db
 
 class AlbumService:
@@ -42,4 +43,13 @@ class AlbumService:
     @staticmethod
     def load_all_album_with_user_id(user_id):
         albums = Album.query.filter_by(userId=user_id).all()
-        return albums
+        albums_with_vocabulary = []
+
+        for album in albums:
+            album_data = album.to_dict()
+            vocabulary = Vocabulary.query.join(AlbumVocabulary).filter(AlbumVocabulary.albumId == album.id).all()
+            vocabulary_data = [word.to_dict() for word in vocabulary]
+            album_data['vocabulary'] = vocabulary_data
+            albums_with_vocabulary.append(album_data)
+
+        return albums_with_vocabulary
